@@ -4,17 +4,37 @@
 	<body>
 		<h1>Talk in English</h1>
 
-		<input type="text" ng-model="app.name" placeholder="Nickname"/>
+		<input type="text" ng-model="app.nickname" placeholder="Nickname"/>
+		<input type="number" ng-model="app.age" min="0" placeholder="Age"/>
+		<select ng-model="app.sex">
+			<option ng-repeat="sex in sexes" value="{{sex.id}}">
+				{{sex.name}}
+			</option>
+		</select>
+		<select ng-model="app.country">
+				<option ng-repeat="country in countries" value="{{contry.id}}">
+						{{country.name}}
+				</option>
+		</select>
+		<select ng-model="app.level">
+				<option ng-repeat="level in levels" value="{{level.id}}">
+					{{level.name}}
+				</option>
+		</select>
+		<input type="text" ng-model="app.goal" placeholder="Goal"/>
+
+		<input type="checkbox" ng-repeat="contact in contacts" value="{{contact}}"/>
+
 
 		<button type="button" ng-click="save()">Save</button>
 		
 		<table style="width:100%">
 			<thead>
-				<th>Name</th>
+				<th>Nickname</th>
 			</thead>
 			<tbody>
 				<tr ng-repeat="item in db">
-					<td>{{item.name}}</td>
+					<td>{{item.nickname}}</td>
 					<td>
 						<button type="button" ng-click="edit(item)">Edit</button>
 					<button type="button" ng-click="destroy(item)">Delete</button> 
@@ -40,8 +60,71 @@
 
 			app.controller("appCtrl", function($scope, $firebaseArray) {
 				$scope.initialize = function() {
+					$scope.sexes = [
+						{
+							id: 1,
+							name: 'Male'
+						},
+						{
+							id: 2,
+							name: 'Female'
+						}
+					];
+
+					$scope.countries = [
+						{
+							id: 1,
+							name: 'Brazil'
+						},
+					];
+
+					$scope.levels = [
+						{
+							id: 1,
+							name: 'Beginner'
+						},
+						{
+							id: 2,
+							name: 'Intermediate'
+						},
+						{
+							id: 4,
+							name: 'Advanced'
+						},
+						{
+							id: 5,
+							name: 'Fluent'
+						},
+						{
+							id: 6,
+							name: 'Native'
+						},
+					];
+
 					$scope.empty = {
-						name: ''
+						nickname: '',
+						age: '',
+						sex: '',
+						country: '',
+						level: '',
+						goal: '',
+						contacts: {
+							aim: '',
+							gadu_gadu: '',
+							google: '',
+							ibm_sametime: '',
+							icq: '',
+							jabber: '',
+							kde_talk: '',
+							msn: '',
+							office_365_lync: '',
+							office_365_lync_libpurple: '',
+							skype: '',
+							telegram: '',
+							yahoo_messager: '',
+						}, interests: {
+
+						}
 					};
 
 					$scope.editting = false;
