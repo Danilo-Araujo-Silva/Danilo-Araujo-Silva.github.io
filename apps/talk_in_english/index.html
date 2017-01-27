@@ -1,0 +1,99 @@
+<html ng-app="app" ng-controller="appCtrl" >
+	<head>
+	</head>
+	<body>
+		<h1>Talk in English</h1>
+
+		<input type="text" ng-model="app.name" placeholder="Nickname"/>
+
+		<button type="button" ng-click="save()">Save</button>
+		
+		<table style="width:100%">
+			<thead>
+				<th>Name</th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in db">
+					<td>{{item.name}}</td>
+					<td>
+						<button type="button" ng-click="edit(item)">Edit</button>
+					<button type="button" ng-click="destroy(item)">Delete</button> 
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/3.6.6/firebase.js"></script>
+		<script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
+		<script>
+			var config = {
+				apiKey: "AIzaSyCJMsg9RJwZK2DSq8smC_tWiLj4auuHucc",
+				authDomain: "github-83df4.firebaseapp.com",
+				databaseURL: "https://github-83df4.firebaseio.com",
+				storageBucket: "github-83df4.appspot.com",
+				messagingSenderId: "341443906538"
+			};
+
+			firebase.initializeApp(config);
+
+			var app = angular.module("app", ["firebase"]);
+
+			app.controller("appCtrl", function($scope, $firebaseArray) {
+				$scope.initialize = function() {
+					$scope.empty = {
+						name: ''
+					};
+
+					$scope.editting = false;
+
+					$scope.new();
+
+					$scope.index();
+				};
+
+				$scope.index = function() {
+					var ref = firebase.database().ref().child("talk_in_english");;
+					$scope.db = $firebaseArray(ref);
+				};
+
+				$scope.new = function() {
+					$scope.app = JSON.parse(JSON.stringify($scope.empty));
+					$scope.editting = false;
+				};
+
+				$scope.create = function() {
+					$scope.db.$add($scope.app);
+					$scope.new();
+				};
+
+				$scope.show = function() {
+					$scope.app = item;
+				};
+
+				$scope.edit = function(item) {
+					$scope.app = item;
+					$scope.editting = true;
+				};
+
+				$scope.update = function() {
+					$scope.db.$save($scope.app);
+					$scope.new();
+				};
+
+				$scope.save = function(item) {
+					if ($scope.editting === true) {
+						$scope.update(item);
+					} else {
+						$scope.create();
+					}
+				};
+
+				$scope.destroy = function(item) {
+					$scope.db.$remove(item);
+				};
+
+				$scope.initialize();
+			});
+		</script>
+	</body>
+</html>
