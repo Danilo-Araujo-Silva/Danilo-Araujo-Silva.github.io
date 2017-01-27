@@ -23,6 +23,10 @@
 				});
 			}
 
+			firebase.auth().signInAnonymously().catch(function(error) {
+				console.log(error);
+			});
+
 			function submit() {
 				var id = $('#id').val();
 				var name = $('#name').val();
