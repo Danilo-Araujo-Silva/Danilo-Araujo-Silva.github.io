@@ -1,0 +1,49 @@
+<html>
+	<head>
+	</head>
+	<body>
+		<h1>Firebase</h1>
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/3.6.7/firebase.js"></script>
+		<script>
+			var config = {
+				apiKey: "AIzaSyCJMsg9RJwZK2DSq8smC_tWiLj4auuHucc",
+				authDomain: "github-83df4.firebaseapp.com",
+				databaseURL: "https://github-83df4.firebaseio.com",
+				storageBucket: "github-83df4.appspot.com",
+				messagingSenderId: "341443906538"
+			};
+			firebase.initializeApp(config);
+
+			function writeUserData(userId, name, email, imageUrl) {
+				firebase.database().ref('users/' + userId).set({
+					username: name,
+					email: email,
+					profile_picture : imageUrl
+				});
+			}
+
+			function submit() {
+				var id = $('#id').val();
+				var name = $('#name').val();
+				var email = $('#email').val();
+				var image_url = $('#image_url').val();
+
+				writeUserData(id, name, email, image_url);
+
+				$('#id').val('');
+				$('#name').val('');
+				$('#email').val('');
+				$('#image_url').val('');
+			}
+
+			// writeUserData(2, 'Full Name 2', 'email2@example.com', 'http://image2.example.com');
+		</script>
+
+		<input id='id' type='text' name='id' /> <br/>
+		<input id='name' type='text' name='name' /> <br/>
+		<input id='email' type='text' name='email' /> <br/>
+		<input id='image_url' type='text' name='image_url' /> <br/>
+		<input id='submit' type='button' value='submit' onclick='submit(); return false;' />
+	</body>
+</html>
