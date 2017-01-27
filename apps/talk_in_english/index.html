@@ -12,14 +12,14 @@
 			</option>
 		</select>
 		<select ng-model="app.country">
-				<option ng-repeat="country in countries" value="{{contry.id}}">
-						{{country.name}}
-				</option>
+			<option ng-repeat="country in countries" value="{{contry.alpha-3}}">
+				{{country.name}}
+			</option>
 		</select>
 		<select ng-model="app.level">
-				<option ng-repeat="level in levels" value="{{level.id}}">
-					{{level.name}}
-				</option>
+			<option ng-repeat="level in levels" value="{{level.id}}">
+				{{level.name}}
+			</option>
 		</select>
 		<input type="text" ng-model="app.goal" placeholder="Goal"/>
 
@@ -58,48 +58,19 @@
 
 			var app = angular.module("app", ["firebase"]);
 
-			app.controller("appCtrl", function($scope, $firebaseArray) {
-				$scope.initialize = function() {
-					$scope.sexes = [
-						{
-							id: 1,
-							name: 'Male'
-						},
-						{
-							id: 2,
-							name: 'Female'
-						}
-					];
+			app.controller("appCtrl", function($scope, $firebaseArray, $http) {
+				$scope.initialize = function() {				
+					$http.get('resources/json/sexes.json').then(function(response){
+						$scope.sexes = response.data;
+					});
 
-					$scope.countries = [
-						{
-							id: 1,
-							name: 'Brazil'
-						},
-					];
+					$http.get('resources/json/countries.json').then(function(response){
+						$scope.countries = response.data;
+					});
 
-					$scope.levels = [
-						{
-							id: 1,
-							name: 'Beginner'
-						},
-						{
-							id: 2,
-							name: 'Intermediate'
-						},
-						{
-							id: 4,
-							name: 'Advanced'
-						},
-						{
-							id: 5,
-							name: 'Fluent'
-						},
-						{
-							id: 6,
-							name: 'Native'
-						},
-					];
+					$http.get('resources/json/levels.json').then(function(response){
+						$scope.levels = response.data;
+					});
 
 					$scope.empty = {
 						nickname: '',
